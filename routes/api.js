@@ -20,11 +20,15 @@ module.exports = function (app) {
       
     })
     
-    .post(function (req, res){
+    .post(async function (req, res){
       const project = req.params.project;
       const { issue_title: title, issue_text: issue, created_by: createdBy, assigned_to: assignedTo, status_text: status } = req.body;
-      Issue
-      
+      try {
+        const newIssue = await Issue.create({ project, title, issue, createdBy, assignedTo, status });
+        return res.json(201).json(newIssue);
+      } catch(err) {
+        return res.status(400).json({ error: 'Failed to create issue.' });
+      }
     })
     
     .put(function (req, res){
