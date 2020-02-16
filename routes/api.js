@@ -20,7 +20,7 @@ module.exports = function(app) {
     .get(async function(req, res) {
       const project = req.params.project;
       const searchQuery = req.query;
-      //const searchQuery = Object.assign(queries, { project });
+      
       try {
         const foundIssues = await Issue.find({ project, _id: undefined });
         if (!foundIssues) {
