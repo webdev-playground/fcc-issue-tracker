@@ -68,7 +68,7 @@ module.exports = function(app) {
       try {
         const updatedIssue = await Issue.findOneAndUpdate(
           { id, project },
-          { title, issue, createdBy, assignedTo, status, open },
+          { title, issue, createdBy, assignedTo, status, open, updatedOn: Date.now() },
           { new: true, omitUndefined: true }
         );
         return res.status(200).json(updatedIssue);

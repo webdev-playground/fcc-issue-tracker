@@ -17,7 +17,9 @@ app.use('/public', express.static(__dirname + '/public'));
 
 app.use(cors({origin: '*'})); //For FCC testing purposes only
 
-app.use(helmet());
+app.use(helmet({
+  frameguard: false
+}));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
