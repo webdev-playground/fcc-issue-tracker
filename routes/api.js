@@ -21,7 +21,9 @@ module.exports = function (app) {
     })
     
     .post(function (req, res){
-      var project = req.params.project;
+      const project = req.params.project;
+      const { issue_title: title, issue_text: issue, created_by: createdBy, assigned_to: assignedTo, status_text: status } = req.body;
+      Issue
       
     })
     
