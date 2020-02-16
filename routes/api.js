@@ -83,8 +83,9 @@ module.exports = function(app) {
     .delete(async function(req, res) {
       const project = req.params.project;
       const { _id: id } = req.body;
+      console.log('hello');
       try {
-        await Issue.findOneAndDelete({ id, project });
+        await Issue.findOneAndDelete({ _id: id, project });
         return res.status(200).json({ message: 'Deleted issue.' });
       } catch (err) {
         return res.status(400).json({ error: 'Failed to delete issue.' });
