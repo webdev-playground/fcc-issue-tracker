@@ -18,6 +18,7 @@ module.exports = function(app) {
     .get(async function(req, res) {
       const project = req.params.project;
       const queries = req.query;
+      const searchQuery = Object.assign({}, queries, obj2);
       try {
         const foundIssues = await Issue.find({ project });
         if (!foundIssues) {
