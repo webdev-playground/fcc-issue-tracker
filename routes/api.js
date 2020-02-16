@@ -67,10 +67,13 @@ module.exports = function(app) {
       } = req.body;
       try {
         const updatedIssue = await Issue.findOneAndUpdate(
-          { id, project },
+          { _id: id, project },
           { title, issue, createdBy, assignedTo, status, open, updatedOn: Date.now() },
           { new: true, omitUndefined: true }
         );
+        if (!updatedIssue) {
+          return res.status(404).json({ error: 'No such issue found.'});
+        }
         return res.status(200).json(updatedIssue);
       } catch (err) {
         return res.status(400).json({ error: 'Failed to update issue.' });

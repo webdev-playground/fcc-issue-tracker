@@ -41,7 +41,7 @@ fccTestingRoutes(app);
 
 // Connect to DB
 const dbUri = process.env.MONGO_URI;
-const options = { useNewUrlParser: true, useUnifiedTopology: true };
+const options = { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false };
 mongoose.connect(dbUri, options).then(() => console.log('Connected to DB.')).catch(err => { throw err });
 
 //Routing for API 
