@@ -8,6 +8,8 @@
 
 "use strict";
 
+const _ = require('lodash');
+
 var expect = require("chai").expect;
 const Issue = require("../models/issue");
 
@@ -17,10 +19,10 @@ module.exports = function(app) {
 
     .get(async function(req, res) {
       const project = req.params.project;
-      const queries = req.query;
-      const searchQuery = Object.assign({}, queries, obj2);
+      const searchQuery = req.query;
+      //const searchQuery = Object.assign(queries, { project });
       try {
-        const foundIssues = await Issue.find({ project });
+        const foundIssues = await Issue.find({ project, _id: undefined });
         if (!foundIssues) {
           return res.status(404).json({ message: 'No issues found for project ' + project });
         }
