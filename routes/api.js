@@ -15,8 +15,19 @@ module.exports = function(app) {
   app
     .route("/api/issues/:project")
 
-    .get(function(req, res) {
-      var project = req.params.project;
+    .get(async function(req, res) {
+      const project = req.params.project;
+      const queries = req.query;
+      try {
+        const foundIssues = await Issue.find({ project });
+        if (!foundIssues) {
+          return res.status(404).json({ message: 'No issues found for project ' + project });
+        }
+        
+        return res.status(200).json(foundIssues);
+      } catch (err) {
+        return res.status(400).json({ error: 'Failed to retrieve issues for project ' + project });
+      }
     })
 
     .post(async function(req, res) {
@@ -69,7 +80,6 @@ module.exports = function(app) {
     .delete(async function(req, res) {
       const project = req.params.project;
       const { _id: id } = req.body;
-      
       try {
         await Issue.findOneAndDelete({ id, project });
         return res.status(200).json({ message: 'Deleted issue.' });
