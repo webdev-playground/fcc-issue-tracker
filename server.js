@@ -5,6 +5,7 @@ var bodyParser  = require('body-parser');
 var expect      = require('chai').expect;
 var cors        = require('cors');
 const helmet = require('helmet');
+const mongoose = require('mongoose');
 
 var apiRoutes         = require('./routes/api.js');
 var fccTestingRoutes  = require('./routes/fcctesting.js');
@@ -37,6 +38,9 @@ app.route('/')
 fccTestingRoutes(app);
 
 // Connect to DB
+const dbUri = process.env.MONGO_URI;
+const options = { useNewUrlParser: true, useUnifiedTopology: true };
+mongoose.connect(dbUri, options).then(() => console.log('Connected to DB.')).catch(err => { throw err });
 
 //Routing for API 
 apiRoutes(app);  
