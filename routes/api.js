@@ -31,9 +31,14 @@ module.exports = function (app) {
       }
     })
     
-    .put(function (req, res){
-      var project = req.params.project;
-      
+    .put(async function (req, res){
+      const project = req.params.project;
+      const { _id: id, issue_title: title, issue_text: issue, created_by: createdBy, assigned_to: assignedTo, status_text: status, open } = req.body;
+      try {
+        const updatedIssue = await Issue.findOneAndUpdate({ id, project }, { title, issue, createdBy, assignedTo, status, }, { new: true, omitUndefined: true });
+      } catch(err) {
+
+      }
     })
     
     .delete(function (req, res){
