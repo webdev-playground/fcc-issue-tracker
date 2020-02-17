@@ -14,6 +14,8 @@ var server = require("../server");
 chai.use(chaiHttp);
 
 suite("Functional Tests", function() {
+  this.timeout(5000);
+  
   suite("POST /api/issues/{project} => object with issue data", function() {
     test("Every field filled in", function(done) {
       chai
@@ -33,8 +35,10 @@ suite("Functional Tests", function() {
           assert.equal(res.body.created_by, 'Functional Test - Every field filled in');
           assert.equal(res.body.assigned_to, 'Chai and Mocha');
           assert.equal(res.body.status_text, 'In QA');
-          assert.equal(res.body.updated_on, )
-          //fill me in too!
+          assert.isDefined(res.body.updated_on);
+          assert.isDefined(res.body.created_on);
+          assert.isTrue(res.body.status);
+          assert.isDefined(res.body._id);
 
           done();
         });
