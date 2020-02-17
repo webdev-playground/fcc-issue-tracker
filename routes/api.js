@@ -42,6 +42,7 @@ module.exports = function(app) {
         updated_on,
         open
       };
+      console.log(queries.issue_text);
       // remove undefined properties
       const searchFilters = Object.keys(queries).reduce((obj, key) => {
         if (queries[key] !== undefined) {
@@ -49,6 +50,7 @@ module.exports = function(app) {
         }
         return obj;
       }, {});
+      console.log(searchFilters)
 
       try {
         const foundIssues = await Issue.find(searchFilters);
@@ -84,7 +86,7 @@ module.exports = function(app) {
           assigned_to,
           status_text
         });
-        return res.json(201).json(newIssue);
+        return res.status(201).json(newIssue);
       } catch (err) {
         return res.status(400).json({ error: "Failed to create issue." });
       }
