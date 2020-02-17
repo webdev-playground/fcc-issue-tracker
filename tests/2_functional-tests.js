@@ -6,6 +6,8 @@
  *       (if additional are added, keep them at the very end!)
  */
 
+process.env.NODE_ENV = 'test';
+
 var chaiHttp = require("chai-http");
 var chai = require("chai");
 var assert = chai.assert;
@@ -37,7 +39,7 @@ suite("Functional Tests", function() {
           assert.equal(res.body.status_text, 'In QA');
           assert.isDefined(res.body.updated_on);
           assert.isDefined(res.body.created_on);
-          assert.isTrue(res.body.status);
+          assert.equal(res.body.open, true);
           assert.isDefined(res.body._id);
 
           done();
