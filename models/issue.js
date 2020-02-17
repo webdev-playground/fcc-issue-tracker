@@ -6,29 +6,29 @@ const issueSchema = new Schema({
     type: String,
     required: true
   },
-  title: {
+  issue_title: {
     type: String,
     required: true
   },
-  issue: {
+  issue_text: {
     type: String,
     required: true
   },
-  createdBy: {
+  created_by: {
     type: String,
     required: true
   },
-  assignedTo: {
+  assigned_to: {
     type: String,
   },
-  status: {
+  status_text: {
     type: String,
   },
-  createdOn: {
+  created_on: {
     type: Date,
     default: Date.now()
   },
-  updatedOn: {
+  updated_on: {
     type: Date,
     default: Date.now()
   },
