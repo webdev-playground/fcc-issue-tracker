@@ -19,10 +19,19 @@ module.exports = function(app) {
 
     .get(async function(req, res) {
       const project = req.params.project;
-      const searchQuery = req.query;
-      
+      const { _id, issue_title: title, issue_text: issue, created_by: createdBy, assigned_to: assignedTo, status_text: statusText, created_on: createdOn, updated_on: updatedOn, open } = req.query;
+      const queries = { project, _id, title, issue, createdBy, assignedTo, statusText, createdOn, updatedOn, open };
+      console.log(queries);
+      const searchFilters = Object.keys(queries).reduce((obj, key) => {
+        if (queries[key] !== undefined) {
+          obj[key] = queries[key];
+        }
+        return obj;
+      });
+      console.log(searchFilters[project]);
+
       try {
-        const foundIssues = await Issue.find({ project, _id: undefined });
+        const foundIssues = await Issue.find(searchFilters);
         if (!foundIssues) {
           return res.status(404).json({ message: 'No issues found for project ' + project });
         }
