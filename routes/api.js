@@ -74,8 +74,8 @@ module.exports = function(app) {
         issue_title,
         issue_text,
         created_by,
-        assigned_to,
-        status_text
+        assigned_to = '',
+        status_text = ''
       } = req.body;
       try {
         const newIssue = await Issue.create({

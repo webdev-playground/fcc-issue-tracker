@@ -6,7 +6,7 @@
  *       (if additional are added, keep them at the very end!)
  */
 
-process.env.NODE_ENV = 'test';
+process.env.NODE_ENV = "test";
 
 var chaiHttp = require("chai-http");
 var chai = require("chai");
@@ -17,7 +17,7 @@ chai.use(chaiHttp);
 
 suite("Functional Tests", function() {
   this.timeout(5000);
-  
+
   suite("POST /api/issues/{project} => object with issue data", function() {
     test("Every field filled in", function(done) {
       chai
@@ -33,10 +33,13 @@ suite("Functional Tests", function() {
         .end(function(err, res) {
           assert.equal(res.status, 200);
           assert.equal(res.body.issue_title, "Title");
-          assert.equal(res.body.issue_text, 'text');
-          assert.equal(res.body.created_by, 'Functional Test - Every field filled in');
-          assert.equal(res.body.assigned_to, 'Chai and Mocha');
-          assert.equal(res.body.status_text, 'In QA');
+          assert.equal(res.body.issue_text, "text");
+          assert.equal(
+            res.body.created_by,
+            "Functional Test - Every field filled in"
+          );
+          assert.equal(res.body.assigned_to, "Chai and Mocha");
+          assert.equal(res.body.status_text, "In QA");
           assert.isDefined(res.body.updated_on);
           assert.isDefined(res.body.created_on);
           assert.equal(res.body.open, true);
@@ -46,13 +49,61 @@ suite("Functional Tests", function() {
         });
     });
 
-    test("Required fields filled in", function(done) {});
+    test("Required fields filled in", function(done) {
+      chai
+        .request(server)
+        .post("/api/issues/test")
+        .send({
+          issue_title: "Title",
+          issue_text: "text",
+          created_by: "Functional Test - Every field filled in",
+        })
+        .end(function(err, res) {
+          assert.equal(res.status, 200);
+          assert.equal(res.body.issue_title, "Title");
+          assert.equal(res.body.issue_text, "text");
+          assert.equal(
+            res.body.created_by,
+            "Functional Test - Every field filled in"
+          );
+          assert.equal(res.body.assigned_to, "");
+          assert.equal(res.body.status_text, "");
+          assert.isDefined(res.body.updated_on);
+          assert.isDefined(res.body.created_on);
+          assert.equal(res.body.open, true);
+          assert.isDefined(res.body._id);
 
-    test("Missing required fields", function(done) {});
+          done();
+        });
+    });
+
+    test("Missing required fields", function(done) {
+      chai
+        .request(server)
+        .post("/api/issues/test")
+        .send({
+          issue_title: "Title"
+        })
+        .end((err, res) => {
+          assert.equal(res.status, 400);
+          done();
+        });
+    });
   });
 
   suite("PUT /api/issues/{project} => text", function() {
-    test("No body", function(done) {});
+    test("No body", function(done) {
+      chai
+        .request(server)
+        .post("/api/issues/test")
+        .send({
+          issue_title: "Title"
+        })
+        .end((err, res) => {
+          assert.equal(res.status, 400);
+          done();
+        });
+    });
 
     test("One field to update", function(done) {});
 
