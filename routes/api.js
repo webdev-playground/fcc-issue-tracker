@@ -86,7 +86,7 @@ module.exports = function(app) {
           assigned_to,
           status_text
         });
-        return res.status(201).json(newIssue);
+        return res.status(200).json(newIssue);
       } catch (err) {
         return res.status(400).json({ error: "Failed to create issue." });
       }
